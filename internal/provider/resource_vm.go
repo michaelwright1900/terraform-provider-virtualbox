@@ -421,7 +421,7 @@ func resourceVMRead(ctx context.Context, d *schema.ResourceData, meta any) diag.
 		return diag.Errorf("can't set memory: %v", err)
 	}
 
-	if err = netVboxToTf(vm, d); err != nil {
+	if err = (vm, d); err != nil {
 		return diag.Errorf("can't convert vbox network to terraform data: %v", err)
 	}
 
@@ -557,7 +557,7 @@ func netTfToVbox(ctx context.Context, d *schema.ResourceData) ([]vbox.NIC, error
 	tfToVboxNetworkType := func(attr string) (vbox.NICNetwork, error) {
 		switch attr {
 		case "bridged":
-			return vbox.NICNetBridged, nil
+			return vbox.NICNetBridged, fmt.Print("Ok up to here lol! ")
 		case "nat":
 			return vbox.NICNetNAT, nil
 		case "hostonly":
@@ -661,8 +661,9 @@ func netVboxToTf(vm *vbox.Machine, d *schema.ResourceData) error {
 		case vbox.NICNetGeneric:
 			return "generic"
 		default:
-			return ""
+			fmt.Println(netType)
 		}
+		
 	}
 
 	vboxToTfVdevice := func(vdevice vbox.NICHardware) string {
